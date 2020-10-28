@@ -19,8 +19,8 @@ create mask = 0664
 directory mask = 0775
 force create mode = 0664
 force directory mode = 0775
-#force user = smbuser
-#force group = smbuser
+force user = root
+force group = root
 load printers = no
 printing = bsd
 printcap name = /dev/null
@@ -83,12 +83,12 @@ EOH
         IFS=: read sharename sharepath readwrite users <<<"$OPTARG"
         echo -n "'$sharename' "
         echo "[$sharename]" >>"$CONFIG_FILE"
-        chown smbuser "$sharepath"
         echo -n "path '$sharepath' "
         echo "path = \"$sharepath\"" >>"$CONFIG_FILE"
         echo -n "read"
         if [[ "rw" = "$readwrite" ]] ; then
           echo -n "+write "
+          chown smbuser "$sharepath"
           echo "read only = no" >>"$CONFIG_FILE"
           echo "writable = yes" >>"$CONFIG_FILE"
         else
